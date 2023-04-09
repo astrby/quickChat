@@ -10,6 +10,9 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const Username = require('./models/username');
 const Chat = require('./models/chat');
+const {createServer} = require('http');
+const {Server} = require('socket.io');
+const httpServer = createServer();
 
 const usernameDB = process.env.REACT_APP_USERDB;
 const passwordDB = process.env.REACT_APP_PASSWORDDB;
@@ -24,10 +27,9 @@ mongoose.connect(mongoDB)
     console.log(error);
 });
 
-const io = require("socket.io")(httpServer, {
+const io = new Server(httpServer, {
     cors: {
       origin: "http://localhost:3000",
-      methods: ["GET", "POST"],
       allowedHeaders: ["my-custom-header"],
       credentials: true
     }
@@ -87,7 +89,7 @@ app.get('/getChats', async(req,res)=>{
     }
 })
 
-http.listen(3001, ()=>{
+httpServer.listen(3001, ()=>{
     console.log('Running on port 3001')
 })
 

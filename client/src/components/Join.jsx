@@ -11,7 +11,13 @@ import { isMobile } from 'react-device-detect'
 
 const Join = () => {
 
-  const socket = io.connect('https://quickchat-production-3880.up.railway.app')
+  const socket = io("https://quickchat-production-3880.up.railway.app", {
+    withCredentials: true,
+    extraHeaders: {
+      "my-custom-header": "abcd"
+    }
+  });
+
   const navigate = useNavigate();
   const setUsername = localStorage((state)=>state.setUsername);
 
