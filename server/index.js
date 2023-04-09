@@ -24,11 +24,12 @@ mongoose.connect(mongoDB)
     console.log(error);
 });
 
-const io = require('socket.io')(http, {
+const io = require("socket.io")(httpServer, {
     cors: {
-        origin: 'http://localhost:3000'
+      origin: "http://localhost:3000",
+      methods: ["GET", "POST"]
     }
-})
+  });
 
 io.on('connection', async(socket)=>{
     console.log('user with socket id '+socket.id+' connected.');
