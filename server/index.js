@@ -10,15 +10,14 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const Username = require('./models/username');
 const Chat = require('./models/chat');
+const {Server} = require('socket.io')
+const { createServer } = require('http');
+const httpServer = createServer();
 
 const usernameDB = process.env.REACT_APP_USERDB;
 const passwordDB = process.env.REACT_APP_PASSWORDDB;
 const nameDB = process.env.REACT_APP_NAMEDB;
 const mongoDB = `mongodb+srv://${usernameDB}:${passwordDB}@cluster0.qy7pbul.mongodb.net/${nameDB}?retryWrites=true&w=majority`;
-
-app.use(cors())
-app.use(express.json())
-app.use(bodyParser.urlencoded({extended: true}))
 
 mongoose.connect(mongoDB)
 .then(()=>{
@@ -28,11 +27,13 @@ mongoose.connect(mongoDB)
     console.log(error);
 });
 
-const io = require('socket.io')(http, {
+const io = new Server(httpServer, {
     cors: {
-        origin: 'http://localhost:3000'
+      origin: 'http://localhost:3000',
+      allowedHeaders: ["my-custom-header"],
+      credentials: true
     }
-})
+  });
 
 io.on('connection', async(socket)=>{
     console.log('user with socket id '+socket.id+' connected.');
@@ -88,7 +89,7 @@ app.get('/getChats', async(req,res)=>{
     }
 })
 
-http.listen(3001, ()=>{
+httpServer.listen(3001, ()=>{
     console.log('Running on port 3001')
 })
 
