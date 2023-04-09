@@ -26,7 +26,7 @@ mongoose.connect(mongoDB)
 
 const io = require('socket.io')(http, {
     cors: {
-        origin: 'https://quickchat0.netlify.app/'
+        origin: 'https://quickchat0.netlify.app'
     }
 })
 
