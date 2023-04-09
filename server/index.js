@@ -2,9 +2,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-app.use(cors());
-app.use(express.json());
-app.use(bodyParser.urlencoded({extended: true}));
 const http = require('http').Server(app);
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -19,6 +16,10 @@ const passwordDB = process.env.REACT_APP_PASSWORDDB;
 const nameDB = process.env.REACT_APP_NAMEDB;
 const mongoDB = `mongodb+srv://${usernameDB}:${passwordDB}@cluster0.qy7pbul.mongodb.net/${nameDB}?retryWrites=true&w=majority`;
 
+app.use(cors());
+app.use(express.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
 mongoose.connect(mongoDB)
 .then(()=>{
     console.log('Database '+nameDB+' connected.');
@@ -29,7 +30,7 @@ mongoose.connect(mongoDB)
 
 const io = new Server(httpServer, {
     cors: {
-      origin: 'http://localhost:3000/',
+      origin: 'https://verdant-lollipop-5bd5b6.netlify.app',
       allowedHeaders: ["my-custom-header"],
       credentials: true
     }

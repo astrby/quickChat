@@ -9,7 +9,7 @@ import {storage} from './storage/firebase'
 import {ref, getDownloadURL, uploadBytes} from 'firebase/storage'
 
 const Chat = () => {
-  const socket = io.connect('http://localhost:3001');
+  const socket = io.connect('https://quickchat-production-3880.up.railway.app');
   const username = localStorage((state)=> state.username)
   const click = localStorage(state=>state.click);
   const[chatArray, setChatArray] = useState([]);

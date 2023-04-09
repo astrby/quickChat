@@ -2,19 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import axios from 'axios'
-import { io } from "socket.io-client";
+import io from 'socket.io-client'
 import {localStorage} from './storage/localstorage'
 import {useNavigate} from 'react-router-dom'
 
 const Chats = () => {
 
   const[chats, setChats] = useState([]);
-  const socket = io("http://quickchat-production-3880.up.railway.app", {
-  withCredentials: true,
-  extraHeaders: {
-    "my-custom-header": "abcd"
-  }
-});
+  const socket = io.connect('https://quickchat-production-3880.up.railway.app');
   const click = localStorage(state=>state.click);
   const setClick = localStorage(state=>state.setClick)
   const navigate = useNavigate();
@@ -24,7 +19,7 @@ const Chats = () => {
   const cleanChatname = localStorage(state=>state.cleanChatname);
 
   const getChats = async() =>{
-    const peticion = await axios.get('http:quickchat-production-3880.up.railway.app/getChats');
+    const peticion = await axios.get('https://quickchat-production-3880.up.railway.app/getChats');
     setChats(peticion.data);
   }
 
