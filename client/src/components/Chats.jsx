@@ -19,7 +19,7 @@ const Chats = () => {
   const cleanChatname = localStorage(state=>state.cleanChatname);
 
   const getChats = async() =>{
-    const peticion = await axios.get('https://quickchat-production-3880.up.railway.app/getChats');
+    const peticion = await axios.get('http://localhost:3001/getChats');
     setChats(peticion.data);
   }
 
