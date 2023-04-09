@@ -30,7 +30,7 @@ mongoose.connect(mongoDB)
 
 const io = new Server(httpServer, {
     cors: {
-      origin: 'https://verdant-lollipop-5bd5b6.netlify.app',
+      origin: 'http://192.168.100.3:3000',
       allowedHeaders: ["my-custom-header"],
       credentials: true
     }
