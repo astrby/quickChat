@@ -32,7 +32,8 @@ const io = require('socket.io')(http, {
     cors: {
         origin: 'http://localhost:3000',
         credentials: true,
-         methods: ["GET", "POST"]
+         methods: ["GET", "POST"],
+         allowedHeaders: ["my-custom-header"]
     },
     transports: ['websocket', 'polling', 'flashsocket']
 })
