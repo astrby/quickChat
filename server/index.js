@@ -16,6 +16,8 @@ const passwordDB = process.env.REACT_APP_PASSWORDDB;
 const nameDB = process.env.REACT_APP_NAMEDB;
 const mongoDB = `mongodb+srv://${usernameDB}:${passwordDB}@cluster0.qy7pbul.mongodb.net/${nameDB}?retryWrites=true&w=majority`;
 
+app.use(cors());
+
 mongoose.connect(mongoDB)
 .then(()=>{
     console.log('Database '+nameDB+' connected.');
