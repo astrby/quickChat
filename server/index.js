@@ -30,7 +30,7 @@ mongoose.connect(mongoDB)
 
 const io = require('socket.io')(http, {
     cors: {
-        origin: true,
+        origins: 'http://localhost:3000',
         credentials: true,
          methods: ["GET", "POST"],
          allowedHeaders: ["my-custom-header"]
