@@ -27,9 +27,10 @@ mongoose.connect(mongoDB)
 const io = require("socket.io")(httpServer, {
     cors: {
       origin: "http://localhost:3000",
-      methods: ["GET", "POST"]
-    },
-    headers: { "Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}
+      methods: ["GET", "POST"],
+      allowedHeaders: ["my-custom-header"],
+      credentials: true
+    }
   });
 
 io.on('connection', async(socket)=>{
