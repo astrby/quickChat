@@ -16,9 +16,9 @@ const passwordDB = process.env.REACT_APP_PASSWORDDB;
 const nameDB = process.env.REACT_APP_NAMEDB;
 const mongoDB = `mongodb+srv://${usernameDB}:${passwordDB}@cluster0.qy7pbul.mongodb.net/${nameDB}?retryWrites=true&w=majority`;
 
-app.use(cors());
-app.use(express.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors())
+app.use(express.json())
+app.use(bodyParser.urlencoded({extended: true}))
 
 mongoose.connect(mongoDB)
 .then(()=>{
@@ -30,12 +30,8 @@ mongoose.connect(mongoDB)
 
 const io = require('socket.io')(http, {
     cors: {
-        origins: 'http://localhost:3000',
-        credentials: true,
-         methods: ["GET", "POST"],
-         allowedHeaders: ["my-custom-header"]
-    },
-    transports: ['websocket', 'polling', 'flashsocket']
+        origin: 'http://localhost:3000'
+    }
 })
 
 io.on('connection', async(socket)=>{
