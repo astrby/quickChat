@@ -7,6 +7,7 @@ import io from 'socket.io-client'
 import {useNavigate} from 'react-router-dom'
 import {localStorage} from './storage/localstorage'
 import logo from './assets/logo.png'
+import { isMobile } from 'react-device-detect'
 
 const Join = () => {
 
@@ -25,16 +26,34 @@ const Join = () => {
   }
 
   return (
-    <Container className='text-center'>
+    <>
+    {
+      isMobile
+      ?
+      <Container className='text-center'>
+        <Card className='w-75 mx-auto' style={{transform: 'translateY(50%)'}}>
+          <Form.Label className='mt-2 mx-auto'><img src={logo} style={{width: '4rem', marginRight: '0.5rem'}}/><h3 style={{display: 'inline-block', paddingTop: '1.5rem', color: 'white'}}>QuickChat</h3></Form.Label>
+              <Form className='w-100 mx-auto'>
+                  <Form.Label className='mt-3'>Ingrese el nombre de usuario</Form.Label>
+                  <Form.Control className='mt-2 w-75 mx-auto' id='username'/>
+                  <Button type='submit' className='mt-2 mb-3 w-50 py-1' onClick={login}>Ingresar</Button>
+              </Form>
+          </Card>
+      </Container>
+      :
+      <Container className='text-center'>
         <Card className='w-50 mx-auto' style={{transform: 'translateY(75%)'}}>
-        <Form.Label className='mt-2 mx-auto'><img src={logo} style={{width: '4rem', marginRight: '0.5rem'}}/><h3 style={{display: 'inline-block', paddingTop: '1.5rem', color: 'white'}}>QuickChat</h3></Form.Label>
-            <Form className='w-100 mx-auto'>
-                <Form.Label className='mt-3'>Ingrese el nombre de usuario</Form.Label>
-                <Form.Control className='mt-2 w-75 mx-auto' id='username'/>
-                <Button type='submit' className='mt-2 mb-3 w-50 py-1' onClick={login}>Ingresar</Button>
-            </Form>
-        </Card>
-    </Container>
+          <Form.Label className='mt-2 mx-auto'><img src={logo} style={{width: '4rem', marginRight: '0.5rem'}}/><h3 style={{display: 'inline-block', paddingTop: '1.5rem', color: 'white'}}>QuickChat</h3></Form.Label>
+              <Form className='w-100 mx-auto'>
+                  <Form.Label className='mt-3'>Ingrese el nombre de usuario</Form.Label>
+                  <Form.Control className='mt-2 w-75 mx-auto' id='username'/>
+                  <Button type='submit' className='mt-2 mb-3 w-50 py-1' onClick={login}>Ingresar</Button>
+              </Form>
+          </Card>
+      </Container>
+    }
+    </>
+    
   )
 }
 
