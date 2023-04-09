@@ -9,7 +9,7 @@ import {localStorage} from './storage/localstorage'
 
 const Join = () => {
 
-  const socket = io.connect('https://quickchat-production-3880.up.railway.app')
+  const socket = io.connect('https://quickchat-production-3880.up.railway.app',{ transports: ["websocket", "polling", "flashsocket"]})
   const navigate = useNavigate();
   const setUsername = localStorage((state)=>state.setUsername);
 
