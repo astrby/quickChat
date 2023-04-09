@@ -17,6 +17,8 @@ const nameDB = process.env.REACT_APP_NAMEDB;
 const mongoDB = `mongodb+srv://${usernameDB}:${passwordDB}@cluster0.qy7pbul.mongodb.net/${nameDB}?retryWrites=true&w=majority`;
 
 app.use(cors());
+app.use(express.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 mongoose.connect(mongoDB)
 .then(()=>{
@@ -28,7 +30,8 @@ mongoose.connect(mongoDB)
 
 const io = require('socket.io')(http, {
     cors: {
-        origin: '*'
+        origin: 'http://localhost:3000',
+         methods: ["GET", "POST"]
     }
 })
 
