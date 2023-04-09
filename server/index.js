@@ -25,10 +25,10 @@ mongoose.connect(mongoDB)
 });
 
 const io = require("socket.io")(httpServer, {
-    cors: {
-      origin: "http://localhost:3000",
-      methods: ["GET", "POST"]
-    }
+    allowRequest: (req, callback) => {
+        const noOriginHeader = req.headers.origin === undefined;
+        callback(null, noOriginHeader);
+      }
   });
 
 io.on('connection', async(socket)=>{
