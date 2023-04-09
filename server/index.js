@@ -32,7 +32,8 @@ const io = new Server(httpServer, {
     cors: {
       origin: 'https://verdant-lollipop-5bd5b6.netlify.app',
       allowedHeaders: ["my-custom-header"],
-      credentials: true
+      credentials: true,
+      transports: ['websocket', 'polling', 'flashsocket'] 
     }
   });
 
