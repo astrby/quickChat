@@ -9,7 +9,12 @@ import {useNavigate} from 'react-router-dom'
 const Chats = () => {
 
   const[chats, setChats] = useState([]);
-  const socket = io.connect('http://quickchat-production-3880.up.railway.app');
+  const socket = io("http://quickchat-production-3880.up.railway.app", {
+  withCredentials: true,
+  extraHeaders: {
+    "my-custom-header": "abcd"
+  }
+});
   const click = localStorage(state=>state.click);
   const setClick = localStorage(state=>state.setClick)
   const navigate = useNavigate();
