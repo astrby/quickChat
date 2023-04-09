@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button'
 import io from 'socket.io-client'
 import {useNavigate} from 'react-router-dom'
 import {localStorage} from './storage/localstorage'
+import logo from './assets/logo.png'
 
 const Join = () => {
 
@@ -25,7 +26,8 @@ const Join = () => {
 
   return (
     <Container className='text-center'>
-        <Card className='w-50 mx-auto' style={{transform: 'translateY(100%)'}}>
+        <Card className='w-50 mx-auto' style={{transform: 'translateY(75%)'}}>
+        <Form.Label className='mt-2 mx-auto'><img src={logo} style={{width: '4rem', marginRight: '0.5rem'}}/><h3 style={{display: 'inline-block', paddingTop: '1.5rem', color: 'white'}}>QuickChat</h3></Form.Label>
             <Form className='w-100 mx-auto'>
                 <Form.Label className='mt-3'>Ingrese el nombre de usuario</Form.Label>
                 <Form.Control className='mt-2 w-75 mx-auto' id='username'/>
