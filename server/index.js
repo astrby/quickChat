@@ -30,10 +30,18 @@ mongoose.connect(mongoDB)
 
 const io = new Server(httpServer, {
     cors: {
-      origin: 'https://verdant-lollipop-5bd5b6.netlify.app',
+      origin: 'http://localhost:3000',
       allowedHeaders: ["my-custom-header"],
       credentials: true,
-      transports: ['websocket', 'polling', 'flashsocket'] 
+    },
+    handlePreflightRequest: (req,res)=>{
+        res.writeHead(200, {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,POST",
+            "Access-Control-Allow-Headers": "my-custom-header",
+            "Access-Control-Allow-Credentials": true
+        })
+        res.end();
     }
   });
 
