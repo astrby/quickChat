@@ -10,9 +10,6 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const Username = require('./models/username');
 const Chat = require('./models/chat');
-const {createServer} = require('http');
-const {Server} = require('socket.io');
-const httpServer = createServer();
 
 const usernameDB = process.env.REACT_APP_USERDB;
 const passwordDB = process.env.REACT_APP_PASSWORDDB;
@@ -27,13 +24,11 @@ mongoose.connect(mongoDB)
     console.log(error);
 });
 
-const io = new Server(httpServer, {
+const io = require('socket.io')(http, {
     cors: {
-      origin: "http://localhost:3000",
-      allowedHeaders: ["my-custom-header"],
-      credentials: true
+        origin: 'http://localhost:3000'
     }
-  });
+})
 
 io.on('connection', async(socket)=>{
     console.log('user with socket id '+socket.id+' connected.');
@@ -45,12 +40,12 @@ io.on('connection', async(socket)=>{
        }
     })
 
-    socket.on('username', async(usernameLog)=>{
+    socket.on('username', (usernameLog)=>{
         const username = new Username({username: usernameLog});
-        const checkUsername = await Username.find({username: usernameLog});
+        const checkUsername = Username.find({username: usernameLog});
 
         if(checkUsername.length === 0){
-            await username.save().then(()=>{
+            username.save().then(()=>{
                 io.emit('username', usernameLog);
                 console.log('Logged successfully')
             })
@@ -89,7 +84,7 @@ app.get('/getChats', async(req,res)=>{
     }
 })
 
-httpServer.listen(3001, ()=>{
+http.listen(3001, ()=>{
     console.log('Running on port 3001')
 })
 
