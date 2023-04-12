@@ -42,7 +42,7 @@ io.on('connection', async(socket)=>{
 
     socket.on('username', async(usernameLog)=>{
         const username = new Username({username: usernameLog});
-        const checkUsername = Username.find({username: usernameLog});
+        const checkUsername = await Username.find({username: usernameLog});
 
         if(checkUsername.length === 0){
             await username.save().then(()=>{
