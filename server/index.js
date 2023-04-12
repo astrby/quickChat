@@ -61,7 +61,7 @@ io.on('connection', (socket)=>{
                 message: data[0].message
              }}});
             console.log('Message sent');
-            socket.broadcast.emit('recentMessage', data[0])
+            socket.emit('recentMessage', data[0])
         }else{
             const chat = new Chat({chatName: data[0].chatname, chat: {
                 username: data[0].username,
