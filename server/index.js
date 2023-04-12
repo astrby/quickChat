@@ -26,7 +26,7 @@ mongoose.connect(mongoDB)
 
 const io = require('socket.io')(http, {
     cors: {
-        origin: 'ttp://192.168.100.3:3000'
+        origin: 'http://192.168.100.3:3000'
     }
 })
 
