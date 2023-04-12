@@ -30,19 +30,20 @@ const io = require('socket.io')(http, {
     }
 })
 
-io.on('connection', async(socket)=>{
+io.on('connection', (socket)=>{
     console.log('user with socket id '+socket.id+' connected.');
 
     socket.on('chatName', async(chatName)=>{
        const chat =  await Chat.find({chatName: chatName});
        if(chatName.length > 0){
+        console.log(chatName)
         io.emit('chat', chat)
        }
     })
 
     socket.on('username', async(usernameLog)=>{
         const username = new Username({username: usernameLog});
-        const checkUsername = await Username.find({username: usernameLog});
+        const checkUsername = Username.find({username: usernameLog});
 
         if(checkUsername.length === 0){
             await username.save().then(()=>{
