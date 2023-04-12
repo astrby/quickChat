@@ -21,7 +21,11 @@ const Main = () => {
     <Container fluid>
         <Row>
           {
-
+            !isMobile 
+            ?
+              [<Col key={0} xs={4}><Chats/></Col>,
+              <Col key={1} xs={8}><Chat/></Col>]
+            :
               chatname.length > 0
               ?
                 [<a key={2} href='' style={{textDecoration:'none'}} onClick={goBack}>Volver atrás</a>,
