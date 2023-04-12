@@ -26,7 +26,7 @@ mongoose.connect(mongoDB)
 
 const io = require('socket.io')(http, {
     cors: {
-        origin: 'http://192.168.100.3:3000'
+        origin: 'https://quickchat0.netlify.app'
     }
 })
 
@@ -36,7 +36,6 @@ io.on('connection', (socket)=>{
     socket.on('chatName', async(chatName)=>{
        const chat =  await Chat.find({chatName: chatName});
        if(chatName.length > 0){
-        console.log(chatName)
         io.emit('chat', chat)
        }
     })
