@@ -26,7 +26,7 @@ mongoose.connect(mongoDB)
 
 const io = require('socket.io')(http, {
     cors: {
-        origin: 'http://localhost:3000'
+        origin: 'https://quickchat0.netlify.app'
     }
 })
 
@@ -84,7 +84,10 @@ app.get('/getChats', async(req,res)=>{
     }
 })
 
-http.listen(3001, ()=>{
+http.listen(process.env.PORT || 3001, ()=>{
     console.log('Running on port 3001')
 })
+
+
+
 
