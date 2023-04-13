@@ -36,17 +36,17 @@ io.on('connection', (socket)=>{
     socket.on('chatName', async(chatName)=>{
        const chat =  await Chat.find({chatName: chatName});
        if(chatName.length > 0){
-        io.emit('chat', chat)
+        socket.emit('chat', chat)
        }
     })
 
     socket.on('username', async(usernameLog)=>{
         const username = new Username({username: usernameLog});
-        const checkUsername = Username.find({username: usernameLog});
+        const checkUsername = await Username.find({username: usernameLog});
 
         if(checkUsername.length === 0){
             await username.save().then(()=>{
-                io.emit('username', usernameLog);
+                socket.emit('username', usernameLog);
                 console.log('Logged successfully')
             })
         }
