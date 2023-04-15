@@ -8,7 +8,7 @@ import {localStorage} from './storage/localstorage'
 import logo from './assets/logo.png'
 import { isMobile } from 'react-device-detect'
 import socketIO from 'socket.io-client';
-const socket = socketIO.connect('http://192.168.100.3:3001/')
+const socket = socketIO.connect('https://quickchat.herokuapp.com/')
 
 const Join = () => {
 
