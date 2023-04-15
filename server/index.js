@@ -55,7 +55,7 @@ socketIO.on('connection', (socket)=>{
     socket.on('message', async(message)=>{
         await Chat.findOneAndUpdate({chatname: message[0].chatname}, {$push: {chat: {username: message[0].username, message: message[0].message}}})
         .then(
-            socket.broadcast.emit('newMessage', {username: message[0].username, message: message[0].message})
+            socketIO.emit('newMessage', {username: message[0].username, message: message[0].message})
         )
     })
 
