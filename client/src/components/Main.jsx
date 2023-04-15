@@ -28,7 +28,7 @@ const Main = () => {
             :
               chatname.length > 0
               ?
-                [<a key={2} href='' style={{textDecoration:'none'}} onClick={goBack}>Volver atrás</a>,
+                [<a key={2} href='' style={{textDecoration:'none', marginTop: '0.75rem'}} onClick={goBack}>Volver atrás</a>,
                 <Col key={3} xs={12}><Chat/></Col>]
               : 
                 <Col  key={4} xs={12}><Chats/></Col>

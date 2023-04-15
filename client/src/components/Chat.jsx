@@ -7,15 +7,16 @@ import socketIO from 'socket.io-client'
 import {localStorage} from './storage/localstorage'
 import {storage} from './storage/firebase'
 import {ref, getDownloadURL, uploadBytes} from 'firebase/storage'
+import {isMobile} from 'react-device-detect'
 let socket = socketIO.connect('https://quickchat.herokuapp.com/');
 
 const Chat = () => {
   
   const username = localStorage((state)=> state.username)
-  const click = localStorage(state=>state.click);
   const[chatArray, setChatArray] = useState([]);
   const[clickSend, setClickSend] = useState(false);
   const chatname = localStorage(state=>state.chatname);
+  const[height, setHeight] = useState('');
 
   const sendMessage = (e) =>{
     e.preventDefault();
@@ -64,6 +65,14 @@ const Chat = () => {
   }
 
   useEffect(()=>{
+    if(isMobile){
+      setHeight('80vh')
+    }else{
+      setHeight('90vh')
+    }
+  },[])
+
+  useEffect(()=>{
     if(chatname){
       socket.emit('chatname', chatname);
       socket.on('chat', (chat)=>{
@@ -76,7 +85,6 @@ const Chat = () => {
         socket.off('chat')
       }
     }
-    
   },[chatname])
 
   useEffect(()=>{
@@ -91,35 +99,34 @@ const Chat = () => {
     } 
   },[socket])
 
-
   return (
     <>
       {
-        chatArray.length > 0
+        chatname
         ?
-        [<Container key={0} className='mt-2' style={{backgroundColor: 'white', height: '90vh', borderRadius: '5px', width: '100%', display: 'flex',flexFlow: 'column nowrap', paddingTop: '1rem', overflowY: 'scroll', paddingBottom: '2rem'}} id='chat'>
+        [<Container key={0} className='mt-2' style={{backgroundColor: 'white', height: height, borderRadius: '5px', width: '100%', display: 'flex',flexFlow: 'column nowrap', paddingTop: '1rem', overflowY: 'scroll', paddingBottom: '2rem'}} id='chat'>
           {
             chatArray.map((chat,i)=>{
               if(chat.username === username){
                 if(chat.message.substring(0,5) === 'https'){
-                  return <img src={chat.message} key={i} style={{backgroundColor: '#A9DFBF', width: '50%', marginLeft: 'auto', borderRadius: '5px', paddingLeft: '0.1rem', paddingRight: '0.1rem'}}></img>
+                  return <img src={chat.message} key={i} style={{backgroundColor: '#A9DFBF', width: '50%', marginLeft: 'auto', borderRadius: '5px', paddingLeft: '0.1rem', paddingRight: '0.1rem', marginBottom: '0.75rem'}}></img>
                 }
                 return <p key={i} style={{color: 'black', backgroundColor: '#A9DFBF', width: '50%', marginLeft: 'auto', borderRadius: '5px', paddingLeft: '0.1rem', paddingRight: '0.1rem', wordWrap: 'break-word'}}>{chat.message}</p>
               }else{
                 if(chat.message.substring(0,5) === 'https'){
-                  return <img  key={i} src={chat.message} style={{backgroundColor: '#A9DFBF', width: '50%', marginLeft: 'auto', borderRadius: '5px', paddingLeft: '0.1rem', paddingRight: '0.1rem'}}/>
+                  return <img  key={i} src={chat.message} style={{backgroundColor: '#A9DFBF', width: '50%', marginLeft: 'auto', borderRadius: '5px', paddingLeft: '0.1rem', paddingRight: '0.1rem', marginBottom: '0.75rem'}}/>
                 }
                 return <p key={i} style={{color: 'black', backgroundColor: '#99CCFF', width: '50%', marginRight: 'auto', borderRadius: '5px', paddingLeft: '0.1rem', paddingRight: '0.1rem', wordWrap: 'break-word'}}>{chat.username+': '+ chat.message}</p>
               }
             })
           }
           </Container>,
-            <Container key={1} style={{display: 'inline-block'}} fluid className='p-0'>
-              <Form.Control style={{display: 'inline-block', width:'75%'}} id='message'></Form.Control>
-              <label htmlFor='file' style={{width: '5%', textAlign: 'center'}}>📁</label>
-              <input id='file' type='file' style={{display: 'none'}} placeholder='📁'></input>
-              <Button type='submit' onClick={sendMessage} variant='info' style={{display: 'inline-block',width:'20%'}}>Enviar</Button>
-            </Container>]
+          <Container key={1} style={{display: 'inline-block'}} fluid className='p-0'>
+            <Form.Control style={{display: 'inline-block', width:'75%'}} id='message'></Form.Control>
+            <label htmlFor='file' style={{width: '5%', textAlign: 'center'}}>📁</label>
+            <input id='file' type='file' style={{display: 'none'}} placeholder='📁'></input>
+            <Button type='submit' onClick={sendMessage} variant='info' style={{display: 'inline-block',width:'20%'}}>Enviar</Button>
+          </Container>]
         : <Card style={{height: '95vh', marginTop: '1rem'}}>
             <h5 className='mx-auto mt-4'>
               Selecccione el chat

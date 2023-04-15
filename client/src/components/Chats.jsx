@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import axios from 'axios'
-import io from 'socket.io-client'
 import {localStorage} from './storage/localstorage'
 import {useNavigate} from 'react-router-dom'
-
+import {isMobile} from 'react-device-detect'
 
 const Chats = () => {
   const[chats, setChats] = useState([]);
@@ -14,6 +13,7 @@ const Chats = () => {
   const logout = localStorage(state=>state.logout);
   const setChatname = localStorage(state=>state.setChatname);
   const cleanChatname = localStorage(state=>state.cleanChatname);
+  const[height, setHeight] = useState('');
 
   const getChats = async() =>{
     const peticion = await axios.get('https://quickchat.herokuapp.com/getChats');
@@ -29,11 +29,16 @@ const Chats = () => {
 
   useEffect(()=>{
     getChats();
+    if(isMobile){
+      setHeight('90vh')
+    }else{
+      setHeight('94vh')
+    }
   },[])
   
   return (
     <Container className='mt-2'>
-      <Card style={{height: '95vh'}}>
+      <Card style={{height: height}}>
         <h4 className='text-center mt-3 mb-3'>Chats</h4>
         {
           chats !== null
