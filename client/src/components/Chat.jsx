@@ -68,20 +68,13 @@ const Chat = () => {
         setChatArray(chat[0].chat);
       })
     }
-    const chat = document.getElementById('chat');
-    if(chat){
-      chat.scrollTop = chat.scrollHeight;
-    }
   },[chatname])
 
   useEffect(()=>{
     socket.on('newMessage', (newMessage)=>{
+      console.log(newMessage)
       setChatArray(chatArray => [...chatArray, newMessage])
     })
-    const chat = document.getElementById('chat');
-    if(chat){
-      chat.scrollTop = chat.scrollHeight;
-    }
   },[socket])
 
   return (
