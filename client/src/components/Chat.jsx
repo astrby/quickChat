@@ -7,7 +7,7 @@ import socketIO from 'socket.io-client'
 import {localStorage} from './storage/localstorage'
 import {storage} from './storage/firebase'
 import {ref, getDownloadURL, uploadBytes} from 'firebase/storage'
-const socket = socketIO.connect('https://quickchat.herokuapp.com/');
+let socket = socketIO.connect('https://quickchat.herokuapp.com/');
 
 const Chat = () => {
   
@@ -40,7 +40,6 @@ const Chat = () => {
     }
     if(file){
       const storageRef = ref(storage, `quickChat/users/${username}/imgs/${Date.now()+'_'+file.name}`);
-      console.log(username)
       uploadBytes(storageRef, file).then((snapshot)=>{
         getDownloadURL(snapshot.ref).then((urlImage)=>{
           data.push({
@@ -59,6 +58,9 @@ const Chat = () => {
         setClickSend(false);
       }
     }
+    if(document.getElementById('chat') !== null){
+      document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
+    }
   }
 
   useEffect(()=>{
@@ -66,23 +68,36 @@ const Chat = () => {
       socket.emit('chatname', chatname);
       socket.on('chat', (chat)=>{
         setChatArray(chat[0].chat);
+        if(document.getElementById('chat') !== null){
+          document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
+        }
       })
+      return()=>{
+        socket.off('chat')
+      }
     }
+    
   },[chatname])
 
   useEffect(()=>{
     socket.on('newMessage', (newMessage)=>{
-      console.log(newMessage)
       setChatArray(chatArray => [...chatArray, newMessage])
+      if(document.getElementById('chat') !== null){
+        document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
+      }
     })
+    return()=>{
+      socket.off('newMessage')
+    } 
   },[socket])
+
 
   return (
     <>
       {
         chatArray.length > 0
         ?
-        [<Container key={0} className='mt-2' style={{backgroundColor: 'white', height: '90vh', borderRadius: '5px', width: '100%', display: 'flex',flexFlow: 'column nowrap', paddingTop: '1rem', overflowY: 'scroll', paddingBottom: '1rem'}} id='chat'>
+        [<Container key={0} className='mt-2' style={{backgroundColor: 'white', height: '90vh', borderRadius: '5px', width: '100%', display: 'flex',flexFlow: 'column nowrap', paddingTop: '1rem', overflowY: 'scroll', paddingBottom: '2rem'}} id='chat'>
           {
             chatArray.map((chat,i)=>{
               if(chat.username === username){
