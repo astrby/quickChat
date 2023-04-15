@@ -3,22 +3,23 @@ import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
-import io from 'socket.io-client'
+import socketIO from 'socket.io-client'
 import {localStorage} from './storage/localstorage'
 import {storage} from './storage/firebase'
 import {ref, getDownloadURL, uploadBytes} from 'firebase/storage'
+const socket = socketIO.connect('https://quickchat.herokuapp.com/');
 
 const Chat = () => {
-  const socket = io.connect('https://quickchat.herokuapp.com/');
+  
   const username = localStorage((state)=> state.username)
   const click = localStorage(state=>state.click);
   const[chatArray, setChatArray] = useState([]);
   const[clickSend, setClickSend] = useState(false);
-  var data = [];
   const chatname = localStorage(state=>state.chatname);
 
   const sendMessage = (e) =>{
     e.preventDefault();
+    var data = [];
     const message = document.getElementById('message').value;
     const file = document.getElementById('file').files[0];
 
@@ -28,9 +29,9 @@ const Chat = () => {
         username: username,
         message: message
       })
-      socket.emit('data', data);
-      setChatArray([...chatArray, ...data]);
-      data = [];
+      
+      socket.emit('message', data);
+
       if(clickSend === false){
         setClickSend(true);
       }else{
@@ -42,15 +43,13 @@ const Chat = () => {
       console.log(username)
       uploadBytes(storageRef, file).then((snapshot)=>{
         getDownloadURL(snapshot.ref).then((urlImage)=>{
-          const data = [];
           data.push({
             chatname: chatname,
             username: username,
             message: urlImage
           })
-          socket.emit('data', data);
-          setChatArray([...chatArray, ...data]);
-          data = [];
+          
+          socket.emit('message', data)
         })
       })
       
@@ -62,25 +61,20 @@ const Chat = () => {
     }
   }
 
-  const getChat = () =>{
-    socket.on('chat', chat =>{
-      setChatArray(chat[0].chat);
-      if(chatArray.length > 0){
-        var chat = document.getElementById('chat');
-        chat.scrollTop = chat.scrollHeight;
-      }
-    });
-  }
-
   useEffect(()=>{
-    getChat();
-  },[clickSend, click])
-
-  useEffect(()=>{
-    if(chatArray.length > 0){
-      var chat = document.getElementById('chat');
-      chat.scrollTop = chat.scrollHeight;
+    if(chatname){
+      socket.emit('chatname', chatname);
+      socket.on('chat', (chat)=>{
+        setChatArray(chat[0].chat);
+      })
     }
+  },[chatname])
+
+  useEffect(()=>{
+    socket.on('newMessage', (newMessage)=>{
+      console.log(newMessage)
+      setChatArray(chatArray => [...chatArray, newMessage])
+    })
   },[socket])
 
   return (

@@ -3,25 +3,25 @@ import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
-import io from 'socket.io-client'
 import {useNavigate} from 'react-router-dom'
 import {localStorage} from './storage/localstorage'
 import logo from './assets/logo.png'
 import { isMobile } from 'react-device-detect'
+import socketIO from 'socket.io-client';
+const socket = socketIO.connect('http://192.168.100.3:3001/')
 
 const Join = () => {
 
-  const socket = io.connect('https://quickchat.herokuapp.com/')
   const navigate = useNavigate();
   const setUsername = localStorage((state)=>state.setUsername);
-
+  
   const login = (e) =>{
     e.preventDefault();
     const username = document.getElementById('username').value;
     if(username){
       socket.emit('username',username);
       setUsername(username);
-      navigate('/main');
+      navigate('/main')
     }
   }
 

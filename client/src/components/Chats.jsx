@@ -6,35 +6,18 @@ import io from 'socket.io-client'
 import {localStorage} from './storage/localstorage'
 import {useNavigate} from 'react-router-dom'
 
-const Chats = () => {
 
+const Chats = () => {
   const[chats, setChats] = useState([]);
-  const socket = io.connect('https://quickchat.herokuapp.com/');
-  const click = localStorage(state=>state.click);
-  const setClick = localStorage(state=>state.setClick)
+  
   const navigate = useNavigate();
   const logout = localStorage(state=>state.logout);
-  const chatname = localStorage(state=>state.chatname);
   const setChatname = localStorage(state=>state.setChatname);
   const cleanChatname = localStorage(state=>state.cleanChatname);
 
   const getChats = async() =>{
     const peticion = await axios.get('https://quickchat.herokuapp.com/getChats');
     setChats(peticion.data);
-  }
-
-  const getChat = (chatName) =>{
-    if(chatName){
-      socket.emit('chatName', chatName);
-      setChatname(chatName);
-      if(click === false){
-        setClick(true);
-      }else{
-        setClick(false);
-      }
-    }else{
-      socket.emit('chatName', chatname);
-    }
   }
 
   const logoutFunction = (e) =>{
@@ -46,7 +29,6 @@ const Chats = () => {
 
   useEffect(()=>{
     getChats();
-    getChat();
   },[])
   
   return (
@@ -57,8 +39,8 @@ const Chats = () => {
           chats !== null
           ?
           chats.map((chat,i)=>{
-            return <a onClick={(e)=>{e.preventDefault();getChat(chat.chatName)}} key={i} href='' style={{textDecoration:'none'}}><Container style={{borderTopStyle: 'solid', borderBottomStyle: 'solid', borderWidth: '1px'}}>
-              <h6 className='text-center mt-1'>{chat.chatName}</h6>
+            return <a onClick={(e)=>{e.preventDefault(); setChatname(chat.chatname)}} key={i} href='' style={{textDecoration:'none'}}><Container style={{borderTopStyle: 'solid', borderBottomStyle: 'solid', borderWidth: '1px'}}>
+              <h6 className='text-center mt-1'>{chat.chatname}</h6>
             </Container></a>
           })
           :''

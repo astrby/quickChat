@@ -24,58 +24,46 @@ mongoose.connect(mongoDB)
     console.log(error);
 });
 
-const io = require('socket.io')(http, {
+const socketIO = require('socket.io')(http, {
     cors: {
         origin: 'https://quickchat0.netlify.app'
     }
 })
 
-io.on('connection', (socket)=>{
-    console.log('user with socket id '+socket.id+' connected.');
+socketIO.on('connection', (socket)=>{
+    console.log('User connected');
 
-    socket.on('chatName', async(chatName)=>{
-       const chat =  await Chat.find({chatName: chatName});
-       if(chatName.length > 0){
-        socket.emit('chat', chat)
-       }
-    })
-
-    socket.on('username', async(usernameLog)=>{
-        const username = new Username({username: usernameLog});
-        const checkUsername = await Username.find({username: usernameLog});
-
+    socket.on('username', async(username)=>{
+        const checkUsername = await Username.find({username: username});
         if(checkUsername.length === 0){
-            await username.save().then(()=>{
-                socket.emit('username', usernameLog);
-                console.log('Logged successfully')
+            const userDB = new Username({
+                username: username
             })
+            await userDB.save()
+            .then(console.log('User registered successfully'))
+        }
+        socket.emit('r', username)
+    })
+
+    socket.on('chatname', async(chatname) =>{
+        const chat = await Chat.find({chatname: chatname});
+        if(chat){
+            socket.emit('chat', chat);
         }
     })
 
-    socket.on('data', async(data)=>{
-        const chat =  await Chat.find({chatName: data[0].chatname});
-        if(chat !== undefined){
-             await Chat.findOneAndUpdate({chatName: data[0].chatname}, {$push: {chat: {
-                username: data[0].username,
-                message: data[0].message
-             }}});
-            console.log('Message sent');
-            socket.broadcast.emit('recentMessage', data[0])
-        }else{
-            const chat = new Chat({chatName: data[0].chatname, chat: {
-                username: data[0].username,
-                message: data[0].message
-             }});
-            await chat.save().then(()=>{
-                console.log('Chat created');
-            })
-        }
+    socket.on('message', async(message)=>{
+        await Chat.findOneAndUpdate({chatname: message[0].chatname}, {$push: {chat: {username: message[0].username, message: message[0].message}}})
+        .then(
+            socketIO.emit('newMessage', {username: message[0].username, message: message[0].message})
+        )
     })
-    
-    socket.on('disconnect',()=>{
-        console.log('user with socket id '+socket.id+' disconnected.')
+
+    socket.on('disconnect', ()=>{
+        console.log('User disconnected')
     })
 })
+
 
 app.get('/getChats', async(req,res)=>{
     const chats = await Chat.find();
@@ -84,7 +72,8 @@ app.get('/getChats', async(req,res)=>{
     }
 })
 
-http.listen(process.env.PORT || 3001, ()=>{
+
+http.listen(3001, ()=>{
     console.log('Running on port 3001')
 })
 
