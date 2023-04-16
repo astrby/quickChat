@@ -26,24 +26,12 @@ mongoose.connect(mongoDB)
 
 const socketIO = require('socket.io')(http, {
     cors: {
-        origin: 'http://192.168.100.3:3000'
+        origin: 'https://quickchat0.netlify.app'
     }
 })
 
 socketIO.on('connection', (socket)=>{
     console.log('User connected');
-
-    socket.on('username', async(username)=>{
-        const checkUsername = await Username.find({username: username});
-        if(checkUsername.length === 0){
-            const userDB = new Username({
-                username: username
-            })
-            await userDB.save()
-            .then(console.log('User registered successfully'))
-        }
-        socket.emit('r', username)
-    })
 
     socket.on('chatname', async(chatname) =>{
         const chat = await Chat.find({chatname: chatname});
@@ -64,11 +52,57 @@ socketIO.on('connection', (socket)=>{
     })
 })
 
+app.post('/join', async(req,res)=>{
+    const{username} = req.body;
+    console.log(username)
+    const checkUsername = await Username.find({username: username});
+    if(checkUsername.length === 0){
+        const userDB = new Username({
+            username: username,
+            connected: true
+        })
+        await userDB.save()
+        .then(console.log('User registered successfully'));
+        res.send(username)
+    }else{
+        const checkConnected = await Username.find({username: username, connected: true});
+        if(checkConnected.length > 0){
+            res.send('connected')
+        }else{
+            await Username.findOneAndUpdate({username: username}, {connected: true}, {returnOriginal: 'false'});
+            res.send(username)
+        }
+    }
+})
+
+app.post('/logout', async(req,res)=>{
+    const{username} = req.body;
+    await Username.findOneAndUpdate({username: username}, {connected: false}, {returnOriginal: 'false'});
+})
 
 app.get('/getChats', async(req,res)=>{
     const chats = await Chat.find();
     if(chats.length > 0){
         res.send(chats)
+    }
+})
+
+app.post('/createGroup', async(req,res)=>{
+    const{chatname} = req.body;
+    const chat = await Chat.find({chatname: chatname})
+
+    if(chat.length > 0){
+        res.send('exists')
+        console.log('Chat exists')
+    }else{
+        const chatDB = new Chat({
+            chatname: chatname
+        })
+        await chatDB.save()
+        .then( 
+            res.send('success'),
+            console.log('Chat registered')
+        )
     }
 })
 

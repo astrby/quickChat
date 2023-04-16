@@ -5,6 +5,7 @@ import axios from 'axios'
 import {localStorage} from './storage/localstorage'
 import {useNavigate} from 'react-router-dom'
 import {isMobile} from 'react-device-detect'
+import Button from 'react-bootstrap/esm/Button'
 
 const Chats = () => {
   const[chats, setChats] = useState([]);
@@ -13,6 +14,7 @@ const Chats = () => {
   const logout = localStorage(state=>state.logout);
   const setChatname = localStorage(state=>state.setChatname);
   const cleanChatname = localStorage(state=>state.cleanChatname);
+  const username = localStorage(state=>state.username);
   const[height, setHeight] = useState('');
 
   const getChats = async() =>{
@@ -20,12 +22,15 @@ const Chats = () => {
     setChats(peticion.data);
   }
 
-  const logoutFunction = (e) =>{
+  const logoutFunction = async(e) =>{
     e.preventDefault();
-    logout();
-    cleanChatname();
-    navigate('/');
+    await axios.post('https://quickchat.herokuapp.com/logout', {username: username}).then(
+      logout(),
+      cleanChatname(),
+      navigate('/')
+    );
   }
+  
 
   useEffect(()=>{
     getChats();
@@ -50,6 +55,7 @@ const Chats = () => {
           })
           :''
         }
+        <a href='createchat' style={{position: 'absolute', bottom: '0', left: '0', right: '0', textAlign: 'center', marginBottom: '3rem', textDecoration: 'none'}}>Crear chat</a>
         <a onClick={logoutFunction} href='' className='text-center' style={{position: 'absolute', bottom: '0', left: '0', right: '0', textAlign: 'center', marginBottom: '0.5rem', textDecoration: 'none'}}>Cerrar sesión</a>
       </Card>
     </Container>

@@ -107,14 +107,14 @@ const Chat = () => {
         [<Container key={0} className='mt-2' style={{backgroundColor: 'white', height: height, borderRadius: '5px', width: '100%', display: 'flex',flexFlow: 'column nowrap', paddingTop: '1rem', overflowY: 'scroll', paddingBottom: '2rem'}} id='chat'>
           {
             chatArray.map((chat,i)=>{
-              if(chat.username === username){
+              if(chat.username.toString() === username.toString()){
                 if(chat.message.substring(0,5) === 'https'){
-                  return <img src={chat.message} key={i} style={{backgroundColor: '#A9DFBF', width: '50%', marginLeft: 'auto', borderRadius: '5px', paddingLeft: '0.1rem', paddingRight: '0.1rem', marginBottom: '0.75rem'}}></img>
+                  return <p key={i}  style={{backgroundColor: '#99CCFF', color: 'black', width: '50%', paddingLeft: 'auto', borderRadius: '5px', paddingRight: '0.1rem', marginBottom: '0.75rem', display: 'flex', alignItems: 'center'}}>{chat.username}: <img src={chat.message} className='w-100 ms-1' style={{overflow: 'hidden'}}/></p>
                 }
                 return <p key={i} style={{color: 'black', backgroundColor: '#A9DFBF', width: '50%', marginLeft: 'auto', borderRadius: '5px', paddingLeft: '0.1rem', paddingRight: '0.1rem', wordWrap: 'break-word'}}>{chat.message}</p>
               }else{
                 if(chat.message.substring(0,5) === 'https'){
-                  return <img  key={i} src={chat.message} style={{backgroundColor: '#A9DFBF', width: '50%', marginLeft: 'auto', borderRadius: '5px', paddingLeft: '0.1rem', paddingRight: '0.1rem', marginBottom: '0.75rem'}}/>
+                  return <p key={i}  style={{backgroundColor: '#A9DFBF', width: '50%', marginLeft: 'auto', borderRadius: '5px', paddingLeft: '0.1rem', paddingRight: '0.1rem', marginBottom: '0.75rem'}}><img src={chat.message} className='w-100' /></p>
                 }
                 return <p key={i} style={{color: 'black', backgroundColor: '#99CCFF', width: '50%', marginRight: 'auto', borderRadius: '5px', paddingLeft: '0.1rem', paddingRight: '0.1rem', wordWrap: 'break-word'}}>{chat.username+': '+ chat.message}</p>
               }
