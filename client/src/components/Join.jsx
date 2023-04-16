@@ -7,7 +7,6 @@ import {useNavigate} from 'react-router-dom'
 import {localStorage} from './storage/localstorage'
 import logo from './assets/logo.png'
 import { isMobile } from 'react-device-detect'
-import socketIO from 'socket.io-client';
 import axios from 'axios'
 import Alert from 'react-bootstrap/Alert'
 
@@ -18,6 +17,7 @@ const Join = () => {
   const[height, setHeight] = useState('');
   const[boxWidth, setBoxWidth] = useState('');
   const[alert, setAlert] = useState('');
+  const localUsername = localStorage((state)=>state.username);
   
   const login = async(e) =>{
     e.preventDefault();
@@ -38,12 +38,17 @@ const Join = () => {
   }
 
   useEffect(()=>{
-    if(isMobile){
-      setHeight('translateY(50%)')
-      setBoxWidth('w-75')
+    if(localUsername.length === 0){
+      console.log(localUsername)
+        if(isMobile){
+          setHeight('translateY(50%)')
+          setBoxWidth('w-75')
+        }else{
+          setHeight('translateY(75%)')
+          setBoxWidth('w-50')
+        }
     }else{
-      setHeight('translateY(75%)')
-      setBoxWidth('w-50')
+      navigate('/main')
     }
   },[])
 
