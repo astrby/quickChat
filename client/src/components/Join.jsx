@@ -39,7 +39,6 @@ const Join = () => {
 
   useEffect(()=>{
     if(localUsername.length === 0){
-      console.log(localUsername)
         if(isMobile){
           setHeight('translateY(50%)')
           setBoxWidth('w-75')
