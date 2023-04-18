@@ -2,7 +2,8 @@
     "join": {
         "title":"Ingrese el nombre de usuario",
         "button":"Ingresar",
-        "alertConnected": "El nombre de usuario ya se encuentra conectado"
+        "errorConnected": "Error. El nombre de usuario ya se encuentra conectado",
+        "errorFill":"Error. Debe llenar el campo."
     },
     "chats":{
         "create":"Crear chat",
@@ -16,6 +17,6 @@
         "title": "Nombre del chat",
         "create": "Crear",
         "errorExists": "Error. El chat ya existe.",
-        "errorFill":"Error. Debe llenar el campo.."
+        "errorFill":"Error. Debe llenar el campo."
     }
 }

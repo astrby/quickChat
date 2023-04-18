@@ -36,6 +36,11 @@ const Join = () => {
         setUsername(peticion.data);
         navigate('/main')
       }
+    }else{
+      setAlert('fill');
+      setTimeout(() => {
+        setAlert('');
+      }, 2000);
     }
   }
 
@@ -60,9 +65,13 @@ const Join = () => {
   return (
     <>
     {
+      alert === 'fill'
+      ?
+      <Alert className='mx-auto mt-2 px-2' style={{position: 'absolute', left: '0', right: '0', width: '300px', backgroundColor: '#FF8000', textAlign: 'center'}}>{t("join.errorFill")}</Alert>
+      :
       alert === 'connected'
       ?
-      <Alert className='mx-auto mt-2 px-2' style={{position: 'absolute', left: '0', right: '0', width: '300px', backgroundColor: '#FF8000', textAlign: 'center'}}>{t("join.alertConnected")}</Alert>
+      <Alert className='mx-auto mt-2 px-2' style={{position: 'absolute', left: '0', right: '0', width: '300px', backgroundColor: '#FF8000', textAlign: 'center'}}>{t("join.errorFill")}</Alert>
       :''
     }
     {
