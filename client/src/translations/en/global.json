@@ -1,0 +1,21 @@
+{
+    "join": {
+        "title":"Enter the username",
+        "button":"Login",
+        "alertConnected": "This username is already connected"
+    },
+    "chats":{
+        "create":"Create chat",
+        "logout":"Logout"
+    },
+    "chat":{
+        "select":"Select the chat",
+        "send":"Send"
+    },
+    "createChat":{
+        "title": "Chatname",
+        "create": "Create",
+        "errorExists": "Error. This chatname already exists.",
+        "errorFill":"Error. You must fill in the field."
+    }
+}

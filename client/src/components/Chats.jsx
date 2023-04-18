@@ -5,7 +5,7 @@ import axios from 'axios'
 import {localStorage} from './storage/localstorage'
 import {useNavigate} from 'react-router-dom'
 import {isMobile} from 'react-device-detect'
-import Button from 'react-bootstrap/esm/Button'
+import {useTranslation} from 'react-i18next'
 
 const Chats = () => {
   const[chats, setChats] = useState([]);
@@ -16,6 +16,8 @@ const Chats = () => {
   const cleanChatname = localStorage(state=>state.cleanChatname);
   const username = localStorage(state=>state.username);
   const[height, setHeight] = useState('');
+  const[t, i18n] = useTranslation('global');
+  const language = localStorage(state=>state.language)
 
   const getChats = async() =>{
     const peticion = await axios.get('https://quikchat.onrender.com/getChats');
@@ -30,7 +32,6 @@ const Chats = () => {
       navigate('/')
     );
   }
-  
 
   useEffect(()=>{
     getChats();
@@ -40,6 +41,10 @@ const Chats = () => {
       setHeight('94vh')
     }
   },[])
+
+  useEffect(()=>{
+    i18n.changeLanguage(language)
+  },[language])
   
   return (
     <Container className='mt-2'>
@@ -55,8 +60,8 @@ const Chats = () => {
           })
           :''
         }
-        <a href='createchat' style={{position: 'absolute', bottom: '0', left: '0', right: '0', textAlign: 'center', marginBottom: '3rem', textDecoration: 'none'}}>Crear chat</a>
-        <a onClick={logoutFunction} href='' className='text-center' style={{position: 'absolute', bottom: '0', left: '0', right: '0', textAlign: 'center', marginBottom: '0.5rem', textDecoration: 'none'}}>Cerrar sesión</a>
+        <a href='createchat' style={{position: 'absolute', bottom: '0', left: '0', right: '0', textAlign: 'center', marginBottom: '3rem', textDecoration: 'none'}}>{t('chats.create')}</a>
+        <a onClick={logoutFunction} href='' className='text-center' style={{position: 'absolute', bottom: '0', left: '0', right: '0', textAlign: 'center', marginBottom: '0.5rem', textDecoration: 'none'}}>{t('chats.logout')}</a>
       </Card>
     </Container>
   )

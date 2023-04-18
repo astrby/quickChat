@@ -11,7 +11,9 @@ export const localStorage = create(
         setClick: (click) => set(()=>({click: click})),
         chatname: '',
         setChatname: (chatname) => set(()=>({chatname: chatname})),
-        cleanChatname: () => set(()=>({chatname: ''}))
+        cleanChatname: () => set(()=>({chatname: ''})),
+        language: 'es',
+        setLanguage: (language) => set(()=>({language: language}))
     }),
     {
         name: 'quickChat-data',

@@ -8,6 +8,8 @@ import {localStorage} from './storage/localstorage'
 import {storage} from './storage/firebase'
 import {ref, getDownloadURL, uploadBytes} from 'firebase/storage'
 import {isMobile} from 'react-device-detect'
+import {useTranslation} from 'react-i18next'
+
 let socket = socketIO.connect('https://quikchat.onrender.com/');
 
 const Chat = () => {
@@ -17,6 +19,8 @@ const Chat = () => {
   const[clickSend, setClickSend] = useState(false);
   const chatname = localStorage(state=>state.chatname);
   const[height, setHeight] = useState('');
+  const[t, i18n] = useTranslation("global");
+  const language = localStorage(state=>state.language)
 
   const sendMessage = (e) =>{
     e.preventDefault();
@@ -73,6 +77,10 @@ const Chat = () => {
   },[])
 
   useEffect(()=>{
+    i18n.changeLanguage(language)
+  },[language])
+
+  useEffect(()=>{
     if(chatname){
       socket.emit('chatname', chatname);
       socket.on('chat', (chat)=>{
@@ -125,11 +133,11 @@ const Chat = () => {
             <Form.Control style={{display: 'inline-block', width:'75%'}} id='message'></Form.Control>
             <label htmlFor='file' style={{width: '5%', textAlign: 'center'}}>📁</label>
             <input id='file' type='file' style={{display: 'none'}} placeholder='📁'></input>
-            <Button type='submit' onClick={sendMessage} variant='info' style={{display: 'inline-block',width:'20%'}}>Enviar</Button>
+            <Button type='submit' onClick={sendMessage} variant='info' style={{display: 'inline-block',width:'20%'}}>{t('chat.send')}</Button>
           </Container>]
         : <Card style={{height: '95vh', marginTop: '1rem'}}>
             <h5 className='mx-auto mt-4'>
-              Selecccione el chat
+              {t('chat.select')}
             </h5>
           </Card>
       }

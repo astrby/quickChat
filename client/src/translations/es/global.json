@@ -1,0 +1,21 @@
+{
+    "join": {
+        "title":"Ingrese el nombre de usuario",
+        "button":"Ingresar",
+        "alertConnected": "El nombre de usuario ya se encuentra conectado"
+    },
+    "chats":{
+        "create":"Crear chat",
+        "logout":"Cerrar sesión"
+    },
+    "chat":{
+        "select":"Seleccione el chat",
+        "send":"Enviar"
+    },
+    "createChat":{
+        "title": "Nombre del chat",
+        "create": "Crear",
+        "errorExists": "Error. El chat ya existe.",
+        "errorFill":"Error. Debe llenar el campo.."
+    }
+}
