@@ -18,13 +18,13 @@ const Chats = () => {
   const[height, setHeight] = useState('');
 
   const getChats = async() =>{
-    const peticion = await axios.get('https://quikchat.onrender.com/getChats');
+    const peticion = await axios.get('https://quickchat.onrender.com/getChats');
     setChats(peticion.data);
   }
 
   const logoutFunction = async(e) =>{
     e.preventDefault();
-    await axios.post('https://quikchat.onrender.com/logout', {username: username}).then(
+    await axios.post('https://quickchat.onrender.com/logout', {username: username}).then(
       logout(),
       cleanChatname(),
       navigate('/')
