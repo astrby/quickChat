@@ -36,7 +36,7 @@ const Chats = () => {
   useEffect(()=>{
     getChats();
     if(isMobile){
-      setHeight('90vh')
+      setHeight('85vh')
     }else{
       setHeight('94vh')
     }

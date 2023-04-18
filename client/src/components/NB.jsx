@@ -9,7 +9,6 @@ const NB = () => {
     const[i18n] = useTranslation('global');
     const setLanguage = localStorage(state=>state.setLanguage);
 
-
     const handleEs = () =>{
         const lang = document.getElementById('es').value;
         setLanguage(lang)
@@ -21,7 +20,7 @@ const NB = () => {
     }
 
   return (
-    <Navbar className='justify-content-end'>
+    <Navbar className='justify-content-end py-0'>
         <Button onClick={handleEs} className='py-0 px-0' id='es' value="es">ES</Button>
         <Button onClick={handleEn}  className='ms-1 me-2 py-0 px-0' id='en' value="en">EN</Button>
     </Navbar>

@@ -70,7 +70,7 @@ const Chat = () => {
 
   useEffect(()=>{
     if(isMobile){
-      setHeight('80vh')
+      setHeight('78vh')
     }else{
       setHeight('90vh')
     }
