@@ -19,7 +19,7 @@ const CreateChat = () => {
         const chatname = document.getElementById('chatname').value;
 
         if(chatname){
-            const peticion = await axios.post('https://quickchat.herokuapp.com/createGroup', {chatname: chatname})
+            const peticion = await axios.post('https://quikchat.onrender.com/createGroup', {chatname: chatname})
             if(peticion.data === 'success'){
                 navigate('/main')
             }else{
