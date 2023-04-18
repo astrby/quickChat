@@ -23,7 +23,7 @@ const Join = () => {
     e.preventDefault();
     const username = document.getElementById('username').value;
     if(username){
-      const peticion = await axios.post('https://quickchat.onrender.com/join', {username: username});
+      const peticion = await axios.post('https://quikchat.onrender.com/join', {username: username});
       if(peticion.data === 'connected'){
         setAlert('connected');
         setTimeout(() => {

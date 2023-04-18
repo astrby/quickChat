@@ -8,7 +8,7 @@ import {localStorage} from './storage/localstorage'
 import {storage} from './storage/firebase'
 import {ref, getDownloadURL, uploadBytes} from 'firebase/storage'
 import {isMobile} from 'react-device-detect'
-let socket = socketIO.connect('https://quickchat.onrender.com/');
+let socket = socketIO.connect('https://quikchat.onrender.com/');
 
 const Chat = () => {
   
