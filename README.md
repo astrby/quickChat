@@ -1,80 +1,78 @@
-![alt text](https://github.com/astrby/react-wegram/blob/main/ReadmeImgs/logo.jpg?raw=true)
+![alt text](https://github.com/astrby/quickChat/blob/main/ReadmeImgs/logo.jpg?raw=true)
 
-# Wegram
+# QuickChat
 
-Aplicación web (Frontend y Backend) en donde los usuarios tienen la posibilidad de subir imágenes.
+Instant messaging web application where users can login, create groups and send messages.
 
-Link: https://wegram.netlify.app/
+Link: https://quickchat0.netlify.app/
 
-## Descripción
+## Description
 
-Wegram tiene distintas funciones, entre ellas están:
+QuickChat has multiple functions, here is the list:
 
-- Registro y Logeo de usuarios.
-- Carga de imágenes con descripción de texto.
-- Visualizar publicaciones propias y de otros usuarios.
-- Dar Me gusta a publicaciones.
-- Comentar publicaciones.
-- Idiomas inglés y español disponibles.
-- Contacto directo a administrador de la página por medio de sección de contacto.
+- User registration and login..
+- Chat creation.
+- Message sending in chats.
+- File uploading in chats.
+- Available languages: spanish and english.
 
-La aplicación se irá actualizando con el tiempo para mejorar y crear nuevas funciones que mejoren la calidad de Wegram.
 
-## Recursos
+## Resources
 
-### Tecnologías utilizadas
+### Technologies
 
 - ReactJS
 - Html
 - Css
 - Bootstrap
 - Javascript
-- NodeJS
-- ExpressJS
+- NodeJS (ExpressJS)
 - MongoDB
 - Firebase
-- EmailJS
+- Websockets (SocketIO)
 
-### Instalación
+### Instalation
 
-Para instalar las siguientes librerías se debe correr el siguiente comando:
+To install the required libraries you must run the following command:
 
 ```
-npm install "comando"
+npm install "command"
 ```
 
-Se requieren instalar las siguientes librerías.
+#### Libraries
 
-Para el servidor:
+For the server:
 
+* node
 * express
 * mongoose
 * nodemon
 * body-parser
+* http
+* socket.io
 
-Para el cliente:
+For the client:
 
 * axios
 * bootstrap
 * react-bootstrap
 * react-router-dom
 * react-i18next
-* react-icons
+* react-device-detect
+* socket.io-client
 * zustand
-* emailjs-com
-* bcryptjs
 
 
-## Capturas de pantalla
+## Screenshots
 
-![alt text](https://github.com/astrby/react-wegram/blob/main/ReadmeImgs/1.jpg?raw=true)
-![alt text](https://github.com/astrby/react-wegram/blob/main/ReadmeImgs/2.jpg?raw=true)
+![alt text](https://github.com/astrby/quickChat/blob/main/ReadmeImgs/login.jpg?raw=true)
+![alt text](https://github.com/astrby/quickChat/blob/main/ReadmeImgs/main.jpg?raw=true)
 
 ## Author
 
 -  Anthony Redondo (anthony.rezu@gmail.com)
 
-## Versiones
+## Versions
 
 * 0.1
-    * Versión inicial
+    * Initial Version
